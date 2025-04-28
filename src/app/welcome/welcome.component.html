@@ -1,0 +1,82 @@
+<div class="container-fluid">
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Happy Warehouse</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" routerLink="/dashboard">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/warehouses">Warehouses</a>
+          </li>
+          <li class="nav-item" *ngIf="isAdmin || isManager">
+            <a class="nav-link" routerLink="/users">Users</a>
+          </li>
+        </ul>
+        <div class="d-flex">
+          <span class="navbar-text me-3">
+            Welcome, {{ currentUser?.fullName }}
+          </span>
+          <button class="btn btn-outline-light" (click)="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Welcome Content -->
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="jumbotron bg-light p-4 rounded shadow-sm">
+          <h1 class="display-4">Welcome to Happy Warehouse!</h1>
+          <p class="lead">Your comprehensive warehouse management solution.</p>
+          <hr class="my-4">
+          <p>Access your warehouses and manage inventory items efficiently.</p>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <button class="btn btn-primary me-md-2" type="button" routerLink="/warehouses">View Warehouses</button>
+            <button class="btn btn-success" type="button" routerLink="/dashboard">View Dashboard</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Quick Access Cards -->
+    <div class="row mt-4">
+      <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+          <div class="card-header">Warehouses</div>
+          <div class="card-body">
+            <h5 class="card-title">Manage Your Warehouses</h5>
+            <p class="card-text">Add, update, or manage your warehouses and their inventory items.</p>
+            <button class="btn btn-outline-light" routerLink="/warehouses">Go to Warehouses</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+          <div class="card-header">Inventory</div>
+          <div class="card-body">
+            <h5 class="card-title">Manage Inventory</h5>
+            <p class="card-text">View and manage inventory across all warehouses. Add or update items.</p>
+            <button class="btn btn-outline-light" routerLink="/warehouses">Manage Inventory</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4" *ngIf="isAdmin || isManager">
+        <div class="card text-white bg-info mb-3">
+          <div class="card-header">User Management</div>
+          <div class="card-body">
+            <h5 class="card-title">Manage Users</h5>
+            <p class="card-text">Add, update, or deactivate user accounts. Manage permissions and roles.</p>
+            <button class="btn btn-outline-light" routerLink="/users">User Management</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

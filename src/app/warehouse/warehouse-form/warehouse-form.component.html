@@ -1,0 +1,140 @@
+<div class="container-fluid">
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" routerLink="/welcome">Happy Warehouse</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" routerLink="/warehouses">Warehouses</a>
+          </li>
+          <li class="nav-item" *ngIf="isAdmin || isManager">
+            <a class="nav-link" routerLink="/users">Users</a>
+          </li>
+        </ul>
+        <div class="d-flex">
+          <button class="btn btn-outline-light" (click)="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Form Content -->
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="card shadow">
+          <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">{{ isEditMode ? 'Edit' : 'Create' }} Warehouse</h4>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="warehouseForm" (ngSubmit)="onSubmit()">
+              <div class="mb-3">
+                <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+                <input 
+                  type="text"
+                  id="name"
+                  formControlName="name"
+                  class="form-control"
+                  [ngClass]="{'is-invalid': submitted && f['name'].errors}"
+                >
+                <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                  <div *ngIf="f['name'].errors['required']">Warehouse name is required</div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="location" class="form-label">Location <span class="text-danger">*</span></label>
+                <input 
+                  type="text"
+                  id="location"
+                  formControlName="location"
+                  class="form-control"
+                  [ngClass]="{'is-invalid': submitted && f['location'].errors}"
+                >
+                <div *ngIf="submitted && f['location'].errors" class="invalid-feedback">
+                  <div *ngIf="f['location'].errors['required']">Location is required</div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="capacity" class="form-label">Capacity <span class="text-danger">*</span></label>
+                <input 
+                  type="number"
+                  id="capacity"
+                  formControlName="capacity"
+                  class="form-control"
+                  [ngClass]="{'is-invalid': submitted && f['capacity'].errors}"
+                >
+                <div *ngIf="submitted && f['capacity'].errors" class="invalid-feedback">
+                  <div *ngIf="f['capacity'].errors['required']">Capacity is required</div>
+                  <div *ngIf="f['capacity'].errors['min']">Capacity must be greater than 0</div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea
+                  id="description"
+                  formControlName="description"
+                  class="form-control"
+                  rows="3"
+                ></textarea>
+              </div>
+
+              <div class="mb-3 form-check form-switch">
+                <input 
+                  type="checkbox"
+                  id="isActive"
+                  formControlName="isActive"
+                  class="form-check-input"
+                >
+                <label for="isActive" class="form-check-label">Active</label>
+              </div>
+
+              <!-- Form Buttons -->
+              <div class="d-flex justify-content-between mt-4">
+                <button 
+                  type="button" 
+                  class="btn btn-secondary" 
+                  (click)="navigateBack()"
+                >
+                  <i class="bi bi-arrow-left me-2"></i>Back
+                </button>
+                <div>
+                  <button 
+                    type="reset" 
+                    class="btn btn-outline-secondary me-2" 
+                    [disabled]="loading"
+                    (click)="resetForm()"
+                  >
+                    Reset
+                  </button>
+                  <button 
+                    type="submit" 
+                    class="btn btn-primary" 
+                    [disabled]="loading"
+                  >
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                    {{ isEditMode ? 'Update' : 'Create' }}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Error Message -->
+        <div *ngIf="error" class="alert alert-danger mt-3">
+          {{ error }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
